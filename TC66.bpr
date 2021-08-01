@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value="TC66.exe"/>
+    <OBJFILES value="TC66.obj TC66frm.obj datastr.obj Serial.obj sservice.obj strnum.obj 
+      StrUtils.obj sys_utils.obj TC66data.obj AES256.obj"/>
+    <RESFILES value="TC66.res"/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES) TC66frm.dfm"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value="tee.lib vclx.lib bcbsmp.lib rtl.lib vcl.lib"/>
+    <SPARELIBS value="vcl.lib rtl.lib bcbsmp.lib vclx.lib tee.lib"/>
+    <PACKAGES value="vcl.bpi rtl.bpi vclx.bpi qrpt.bpi vcldb.bpi dbrtl.bpi bdertl.bpi teeui.bpi 
+      teedb.bpi tee.bpi teeqr.bpi"/>
+    <PATHCPP value=".;"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <DEBUGLIBPATH value="$(BCB)\lib\debug"/>
+    <RELEASELIBPATH value="$(BCB)\lib\release"/>
+    <LINKER value="ilink32"/>
+    <USERDEFINES value="_DEBUG"/>
+    <SYSDEFINES value="NO_STRICT"/>
+    <MAINSOURCE value="TC66.cpp"/>
+    <INCLUDEPATH value="AES1;AES;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;&quot;D:\Inst\Hardware\USB-C tester\PC&quot;;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="AES1;AES;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;&quot;D:\Inst\Hardware\USB-C tester\PC&quot;;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-IAES1 -IAES -I&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot; 
+      -I&quot;D:\Inst\Hardware\USB-C tester\PC&quot; -I$(BCB)\include -I$(BCB)\include\vcl 
+      -src_suffix cpp -D_DEBUG -boa"/>
+    <CFLAG1 value="-Od -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -r- -a1 -b- -k -y -v -vi- -c 
+      -tW -tWM"/>
+    <PFLAGS value="-$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
+    <RFLAGS value=""/>
+    <AFLAGS value="/mx /w2 /zi"/>
+    <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn -v"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="c0w32.obj sysinit.obj $(OBJFILES)"/>
+    <ALLRES value="$(RESFILES)"/>
+    <ALLLIB value="$(LIBFILES) $(LIBRARIES) import32.lib cp32mt.lib"/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="TC66.res" FORMNAME="" UNITNAME="TC66.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TC66.cpp" FORMNAME="" UNITNAME="TC66" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TC66frm.cpp" FORMNAME="TC66F" UNITNAME="TC66frm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="datastr.cpp" FORMNAME="" UNITNAME="datastr.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Serial.cpp" FORMNAME="" UNITNAME="Serial.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="sservice.cpp" FORMNAME="" UNITNAME="sservice.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="strnum.cpp" FORMNAME="" UNITNAME="strnum.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="StrUtils.cpp" FORMNAME="" UNITNAME="StrUtils.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="sys_utils.cpp" FORMNAME="" UNITNAME="sys_utils.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="TC66data.cpp" FORMNAME="" UNITNAME="TC66data" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="AES256.cpp" FORMNAME="" UNITNAME="AES256" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=1
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=1
+Special=0
+Private=0
+DLL=0
+Locale=1033
+CodePage=1200
+
+[Version Info Keys]
+CompanyName=3PI Solutions
+FileDescription=TC66 logger
+FileVersion=1.00.0000
+InternalName=TC66 logger
+LegalCopyright=PI Solutions
+LegalTrademarks=Copyright 2021 Dmitry Orlov.
+OriginalFilename=TC66.exe
+ProductName=TC66 logger
+ProductVersion=1.00.0000
+Comments=TC66 logger
+Date=07-28-21. 15:50:00
+
+[Excluded Packages]
+c:\program files (x86)\borland\cbuilder6\Bin\dclbcbsmp60.bpl=Borland Sample Controls Design Time Package
+D:\PCProjects\Bpl\tmstmsc6.bpl=TMS Component Pack
+C:\Program Files (x86)\Borland\CBuilder6\Bin\dclclxstd60.bpl=Borland CLX Standard Components
+c:\program files (x86)\borland\cbuilder6\Projects\Bpl\dclusr60.bpl=Borland User Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclado60.bpl=Borland ADO DB Components
+c:\program files (x86)\borland\cbuilder6\Bin\DCLIB60.bpl=InterBase Data Access Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclcds60.bpl=Borland Base Cached ClientDataset Component
+C:\Program Files (x86)\Borland\CBuilder6\Bin\dclmid60.bpl=Borland MyBase DataAccess Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclbdecds60.bpl=Borland Local BDE ClientDataset Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclclxdb60.bpl=Borland CLX Database Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclmcn60.bpl=Borland DataSnap Connection Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclsmpedit60.bpl=Borland Editor Script Enhancements
+c:\program files (x86)\borland\cbuilder6\Bin\applet60.bpl=Borland Control Panel Applet Package
+c:\program files (x86)\borland\cbuilder6\Bin\dclemacsedit60.bpl=Borland Editor Emacs Enhancements
+c:\program files (x86)\borland\cbuilder6\Bin\dclact60.bpl=Borland ActionBar Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclmlwiz60.bpl=Borland Markup Language Wizards
+c:\program files (x86)\borland\cbuilder6\Bin\idefilters60.bpl=IDE Filter for CPP32
+c:\program files (x86)\borland\cbuilder6\Bin\dcl31w60.bpl=Delphi 1.0 Compatibility Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclnet60.bpl=Borland Internet Components
+c:\program files (x86)\borland\cbuilder6\Bin\DBWEBXPRT.BPL=Borland Web Wizard Package
+c:\program files (x86)\borland\cbuilder6\Bin\DCLNMF60.bpl=NetMasters Fastnet Tools
+c:\program files (x86)\borland\cbuilder6\Bin\dclwbm60.bpl=Borland InternetExpress Components
+c:\program files (x86)\borland\cbuilder6\Bin\bcbie60.bpl=Borland C++Builder Internet Explorer 5 Components Package
+c:\program files (x86)\borland\cbuilder6\Bin\dclwebsnap60.bpl=Borland WebSnap Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclsoap60.bpl=Borland SOAP Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclocx60.bpl=Borland Sample Imported ActiveX Controls
+c:\program files (x86)\borland\cbuilder6\Bin\dclite60.bpl=Borland Integrated Translation Environment
+c:\program files (x86)\borland\cbuilder6\Bin\dcldbx60.bpl=Borland dbExpress Components
+c:\program files (x86)\borland\cbuilder6\Bin\dcldbxcds60.bpl=Borland Local DBX ClientDataset Components
+c:\program files (x86)\borland\cbuilder6\Bin\dclindy60.bpl=Internet Direct (Indy) for D6 Property and Component Editors
+c:\program files (x86)\borland\cbuilder6\Bin\bcb2kaxserver60.bpl=Borland C++Builder COM Server Components Sample Package
+c:\program files (x86)\borland\cbuilder6\Bin\dcldss60.bpl=Borland Decision Cube Components
+
+[HistoryLists\hlIncludePath]
+Count=4
+Item0=AES1;AES;C:\Program Files (x86)\Borland\CBuilder6\Projects;D:\Inst\Hardware\USB-C tester\PC;$(BCB)\include;$(BCB)\include\vcl
+Item1=C:\Program Files (x86)\Borland\CBuilder6\Projects;D:\Inst\Hardware\USB-C tester\PC;$(BCB)\include;$(BCB)\include\vcl
+Item2=$(BCB)\include;$(BCB)\include\vcl
+Item3=&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=4
+Item0=AES1;AES;C:\Program Files (x86)\Borland\CBuilder6\Projects;D:\Inst\Hardware\USB-C tester\PC;$(BCB)\lib\obj;$(BCB)\lib
+Item1=C:\Program Files (x86)\Borland\CBuilder6\Projects;D:\Inst\Hardware\USB-C tester\PC;$(BCB)\lib\obj;$(BCB)\lib
+Item2=$(BCB)\lib\obj;$(BCB)\lib
+Item3=&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=1
+Item0=_DEBUG
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+  </IDEOPTIONS>
+</PROJECT>
