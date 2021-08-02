@@ -470,5 +470,9 @@ object TC66F: TTC66F
       Caption = 'Previous page'
       OnClick = PreviouspageClick
     end
+    object Savereport: TMenuItem
+      Caption = 'Save report'
+      OnClick = SavereportClick
+    end
   end
 end

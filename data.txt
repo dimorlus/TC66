@@ -1,0 +1,12 @@
+Vm=5.1359V
+Im=0A
+Pm=0W
+Rm=10kOhm
+Ah0=0Ah0
+Wh0=0Wh0
+Ah1=0Ah1
+Wh1=4mWh1
+Tc=23°C
+Pc=0W
+Ahc=0Ah
+Whc=0Wh

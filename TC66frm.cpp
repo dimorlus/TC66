@@ -61,6 +61,8 @@ void __fastcall TTC66F::FormCreate(TObject *Sender)
    LogName = ExtractFilePath(Application->ExeName)+ LogName;
   ls = ini->ReadString("FILES", "LS", ListSeparator)[1];
   kCurr = ini->ReadFloat("TC66", "KCURR", 1.0);
+  Blink = ini->ReadBool("INTERFACE", "BLINK", 1);
+  Memo = ini->ReadBool("INTERFACE", "MEMO", 1);
   delete ini;
   lastms = GetTickCount();
   CBComChange(Sender);
@@ -70,6 +72,7 @@ void __fastcall TTC66F::FormCreate(TObject *Sender)
   lprintf(MTest->Lines,"Polling period %dms\n", Timer->Interval);
   PControl->Color = clWhite;
   Color = clWhite;
+  ind_rx->Visible = Blink;
   //TC66F->PixelsPerInch = 96;
 }
 //---------------------------------------------------------------------------
@@ -91,7 +94,7 @@ void __fastcall TTC66F::FormClose(TObject *Sender, TCloseAction &Action)
 void __fastcall TTC66F::TimerTimer(TObject *Sender)
 {
  char cmd[] = "getva";
- ind_rx->Brush->Color = clYellow;
+ if (Blink) ind_rx->Brush->Color = clYellow;
  PutChars(Port, cmd, strlen(cmd));
 }
 //---------------------------------------------------------------------------
@@ -227,6 +230,29 @@ AnsiString ad2scistrup(double d, const char* units, int prec, int adj)
  return str;
 }
 //---------------------------------------------------------------------------
+// Compute the MODBUS RTU CRC
+uint16_t ModRTU_CRC(const uint8_t *buf, int len)
+{
+  uint16_t crc = 0xFFFF;
+
+  for (int pos = 0; pos < len; pos++) {
+    crc ^= (uint16_t)buf[pos];          // XOR byte into least sig. byte of crc
+
+    for (int i = 8; i != 0; i--)      // Loop over each bit
+     {
+      if ((crc & 0x0001) != 0)        // If the LSB is set
+       {
+        crc >>= 1;                    // Shift right and XOR 0xA001
+        crc ^= 0xA001;
+       }
+      else                            // Else LSB is not set
+        crc >>= 1;                    // Just shift right
+    }
+  }
+  // Note, this number has low and high bytes swapped, so use it accordingly (or swap bytes)
+  return crc;
+}
+//---------------------------------------------------------------------------
 
 void __fastcall TTC66F::TimerHandle(void)
 {
@@ -253,18 +279,22 @@ void __fastcall TTC66F::TimerHandle(void)
 
      currms = GetTickCount();
      AES_decrypt(key, TC66Data.raw, DATASIZE);
-     if (Caption == "TC66")
-      {
-       Caption = asprintf("%c%c%c%c v%c%c%c%c sn: %d",
-        TC66Data.model[0],  TC66Data.model[1],TC66Data.model[2],TC66Data.model[3],
-        TC66Data.ver[0], TC66Data.ver[1], TC66Data.ver[2], TC66Data.ver[3],
-        TC66Data.sn);
-      }
      if ((*(uint32_t*)&TC66Data.pac1 == 0x31636170) && //"pac1"
          (*(uint32_t*)&TC66Data.pac2 == 0x32636170) && //"pac2"
          (*(uint32_t*)&TC66Data.pac3 == 0x33636170) && //"pac3"
-         (*(uint32_t*)&TC66Data.model == 0x36364354))  //"TC66"
+         (*(uint32_t*)&TC66Data.model == 0x36364354) &&  //"TC66"
+         (TC66Data.chk1 == ModRTU_CRC(&TC66Data.raw[0], 60)) &&
+         (TC66Data.chk2 == ModRTU_CRC(&TC66Data.raw[64], 60)) &&
+         (TC66Data.chk3 == ModRTU_CRC(&TC66Data.raw[128], 60)))
        {
+        if (Caption == "TC66")
+         {
+          Caption = asprintf("%c%c%c%c v%c%c%c%c sn: %d",
+           TC66Data.model[0],  TC66Data.model[1],TC66Data.model[2],TC66Data.model[3],
+           TC66Data.ver[0], TC66Data.ver[1], TC66Data.ver[2], TC66Data.ver[3],
+           TC66Data.sn);
+         }
+
         TC66res.V = TC66Data.Volts/10000.0;
         TC66res.I = kCurr*TC66Data.Amps/100000.0;
         TC66res.W = kCurr*TC66Data.Watts/10000.0;
@@ -303,16 +333,17 @@ void __fastcall TTC66F::TimerHandle(void)
         int ms2 = GetTickCount();
         if ((ms2-ms1) > 990)
          {
-          lprintf(MTest->Lines,"%0.2fs %2.5fV %1.6fA\n",
-           TC66res.t, TC66res.V, TC66res.I);
+          if (Memo) lprintf(MTest->Lines,"%0.2fs %2.5fV %1.6fA\n",
+                            TC66res.t, TC66res.V, TC66res.I);
           ms1 = ms2;
          }
-        ind_rx->Brush->Color = clBlack;
+        if (Blink) ind_rx->Brush->Color = clBlack;
        }
     }
   }
 }
 //---------------------------------------------------------------------------
+
 void __fastcall TTC66F::Stop(void)
  {
    if (Timer->Enabled)
@@ -323,6 +354,7 @@ void __fastcall TTC66F::Stop(void)
     }
  }
 //---------------------------------------------------------------------------
+
 void __fastcall TTC66F::Start(void)
  {
    if (!Timer->Enabled)
@@ -337,6 +369,7 @@ void __fastcall TTC66F::Start(void)
     }
  }
 //---------------------------------------------------------------------------
+
 void __fastcall TTC66F::BStartClick(TObject *Sender)
 {
 // if (BStart->Enabled)
@@ -362,7 +395,6 @@ void __fastcall TTC66F::BiniClick(TObject *Sender)
                              mtError, TMsgDlgButtons() << mbOK, 0);
 }
 //---------------------------------------------------------------------------
-
 
 void __fastcall TTC66F::EdDelayEnter(TObject *Sender)
 {
@@ -592,14 +624,14 @@ void __fastcall TTC66F::ClearClick(TObject *Sender)
 void __fastcall TTC66F::ChartMouseWheelUp(TObject *Sender,
       TShiftState Shift, TPoint &MousePos, bool &Handled)
 {
-  Chart->ZoomPercent(101);
+ Chart->ZoomPercent(101);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TTC66F::ChartMouseWheelDown(TObject *Sender,
       TShiftState Shift, TPoint &MousePos, bool &Handled)
 {
-  Chart->ZoomPercent(99);
+ Chart->ZoomPercent(99);
 }
 //---------------------------------------------------------------------------
 
@@ -684,7 +716,6 @@ void __fastcall TTC66F::AppendcsvClick(TObject *Sender)
    TC66res.t = AppendTime = Chart->BottomAxis->Maximum;
    Load_csv(OpenDialog->FileName);
   }
-
 }
 //---------------------------------------------------------------------------
 
@@ -807,10 +838,6 @@ void __fastcall TTC66F::SaveClick(TObject *Sender)
 void __fastcall TTC66F::FormCanResize(TObject *Sender, int &NewWidth,
       int &NewHeight, bool &Resize)
 {
-// Resize = ((NewWidth > Width) || (Bini->Left > (BStart->Left+BStart->Width+6)))&&
-//          ((NewHeight > Height) || (Chart->Height > 150));
-// Resize = ((NewWidth > Width) || (PControl->Width > (STLocalWh->Left+STLocalWh->Width+20)))&&
-//          ((NewHeight > Height) || (Chart->Height > 150));
  Resize = ((NewWidth > Width) || (PControl->Width > (BData->Left+BData->Width+4)))&&
           ((NewHeight > Height) || (Chart->Height > 150));
 }
@@ -819,9 +846,6 @@ void __fastcall TTC66F::FormCanResize(TObject *Sender, int &NewWidth,
 void __fastcall TTC66F::FormShow(TObject *Sender)
 {
  FormResize(Sender);
-// Chart->Top = PControl->Top+PControl->Height+2;
-// lprintf(MTest->Lines,"%d %d %d\n",
-// PControl->Top, PControl->Height, Chart->Top);
 }
 //---------------------------------------------------------------------------
 void __fastcall TTC66F::WMChangeDev(TMessage &Message)
@@ -848,6 +872,37 @@ void __fastcall TTC66F::PreviouspageClick(TObject *Sender)
 {
  char cmd[] = "lastp";
  PutChars(Port, cmd, strlen(cmd));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TTC66F::SavereportClick(TObject *Sender)
+{
+ SaveDialog->DefaultExt = "txt";
+ SaveDialog->Filter = "TXT (*.txt)|*.txt";
+ SaveDialog->InitialDir = ExtractFileDir(LogName);
+ SaveDialog->Title = "Save report";
+ SaveDialog->FileName = ChangeFileExt(LogName, ".txt");
+ SaveDialog->FilterIndex = 1;
+ if (SaveDialog->Execute())
+  {
+   FILE * File = fopen(SaveDialog->FileName.c_str(), "at");
+   if (File)
+    {
+     fprintf(File, "Vm=%s\n", STVoltage->Caption.c_str());
+     fprintf(File, "Im=%s\n", STCurrent->Caption.c_str());
+     fprintf(File, "Pm=%s\n", STPower->Caption.c_str());
+     fprintf(File, "Rm=%s\n", STRes->Caption.c_str());
+     fprintf(File, "Ah0=%s\n", STAh0->Caption.c_str());
+     fprintf(File, "Wh0=%s\n", STWh0->Caption.c_str());
+     fprintf(File, "Ah1=%s\n", STAh1->Caption.c_str());
+     fprintf(File, "Wh1=%s\n", STWh1->Caption.c_str());
+     fprintf(File, "Tc=%s\n", STTmp->Caption.c_str());
+     fprintf(File, "Pc=%s\n", STLocalPower->Caption.c_str());
+     fprintf(File, "Ahc=%s\n", STLocalAh->Caption.c_str());
+     fprintf(File, "Whc=%s\n", STLocalWh->Caption.c_str());
+    }
+   fclose(File);
+  }
 }
 //---------------------------------------------------------------------------
 

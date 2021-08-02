@@ -76,6 +76,7 @@ __published:	// IDE-managed Components
         TStaticText *STTmp;
         TBevel *BData;
         TShape *ind_rx;
+        TMenuItem *Savereport;
         void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
         void __fastcall FormCreate(TObject *Sender);
         void __fastcall TimerTimer(TObject *Sender);
@@ -112,6 +113,7 @@ __published:	// IDE-managed Components
         void __fastcall NextpageClick(TObject *Sender);
         void __fastcall PreviouspageClick(TObject *Sender);
         void __fastcall AppendcsvClick(TObject *Sender);
+        void __fastcall SavereportClick(TObject *Sender);
 private:	// User declarations
         void *Port;
         AnsiString LogName;
@@ -122,6 +124,8 @@ private:	// User declarations
         bool AbortFlag;
         double AppendTime;
         uint32_t lastms;
+        bool Blink;
+        bool Memo;
 
         void __fastcall Log(TTC66res *TC66res);
         void __fastcall Load_csv(AnsiString fName);
