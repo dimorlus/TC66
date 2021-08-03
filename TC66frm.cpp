@@ -14,6 +14,7 @@
 #include "strnum.h"
 #include "datastr.h"
 #include "Serial.h"
+#include "ports.h"
 #include "TC66data.h"
 #include "TC66frm.h"
 //---------------------------------------------------------------------------
@@ -51,11 +52,11 @@ __fastcall TTC66F::TTC66F(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TTC66F::FormCreate(TObject *Sender)
 {
-  GetPortList(this, cb_fn);
   CBCom->Text = CBCom->Items->Strings[0];
   TIniFile *ini = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
   CBCom->Text = ini->ReadString("UART", "PORT", "COM1");
   EdDelay->Text = ini->ReadInteger("UART", "DELAY", 1000);
+  PortDescription = ini->ReadBool("UART", "DESCRIPTION", 1);
   LogName = ini->ReadString("FILES", "LOG", "");
   if (ExtractFilePath(LogName) == "")
    LogName = ExtractFilePath(Application->ExeName)+ LogName;
@@ -64,6 +65,9 @@ void __fastcall TTC66F::FormCreate(TObject *Sender)
   Blink = ini->ReadBool("INTERFACE", "BLINK", 1);
   Memo = ini->ReadBool("INTERFACE", "MEMO", 1);
   delete ini;
+  if (PortDescription) GetPortListUsingSetupAPI(this, cb_fn);
+  else GetPortList(this, cb_fn);
+
   lastms = GetTickCount();
   CBComChange(Sender);
   ClearPort(Port);
@@ -86,6 +90,7 @@ void __fastcall TTC66F::FormClose(TObject *Sender, TCloseAction &Action)
    lprintf(MTest->Lines, "Close COM port\n");
    CloseComPort(Port);
   }
+ ini->WriteBool("UART", "DESCRIPTION", PortDescription);
  ini->WriteInteger("UART", "DELAY", atoi(EdDelay->Text.c_str()));
  ini->WriteString("FILES", "LS", ls);
  ini->WriteBool("INTERFACE", "BLINK", Blink);
@@ -122,7 +127,8 @@ void __fastcall TTC66F::CBComChange(TObject *Sender)
 void __fastcall TTC66F::CBComDropDown(TObject *Sender)
 {
  CBCom->Items->Clear();
- GetPortList(this, cb_fn);
+ if (PortDescription) GetPortListUsingSetupAPI(this, cb_fn);
+ else GetPortList(this, cb_fn);
  CBCom->Text = CBCom->Items->Strings[0];
 }
 //---------------------------------------------------------------------------

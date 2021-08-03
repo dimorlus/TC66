@@ -5,7 +5,7 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="TC66.exe"/>
     <OBJFILES value="TC66.obj TC66frm.obj datastr.obj Serial.obj sservice.obj strnum.obj 
-      StrUtils.obj sys_utils.obj TC66data.obj AES256.obj"/>
+      StrUtils.obj sys_utils.obj TC66data.obj AES256.obj ports.obj"/>
     <RESFILES value="TC66.res"/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
@@ -61,6 +61,7 @@
       <FILE FILENAME="sys_utils.cpp" FORMNAME="" UNITNAME="sys_utils.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TC66data.cpp" FORMNAME="" UNITNAME="TC66data" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="AES256.cpp" FORMNAME="" UNITNAME="AES256" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ports.cpp" FORMNAME="" UNITNAME="ports" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

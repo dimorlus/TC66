@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <limits.h>
 
+#pragma warn -8004
 #define AES_BLOCKLEN 16 // Block length in bytes AES is 128b block only
 #define AES_keyExpSize 240
 

@@ -9,7 +9,7 @@
 //---------------------------------------------------------------------------
 
 #pragma package(smart_init)
-
+#pragma warn -8004
 int dat2hex(char *str, unsigned char *data, int size)
 {
  int i;

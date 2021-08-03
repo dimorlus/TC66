@@ -16,7 +16,7 @@
 #include <Menus.hpp>
 #include <Dialogs.hpp>
 //---------------------------------------------------------------------------
-
+#pragma warn -8027
 typedef union
 {
  struct
@@ -127,6 +127,7 @@ private:	// User declarations
         uint32_t lastms;
         bool Blink;
         bool Memo;
+        bool PortDescription;
 
         void __fastcall Log(TTC66res *TC66res);
         void __fastcall Load_csv(AnsiString fName);

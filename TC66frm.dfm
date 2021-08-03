@@ -119,7 +119,7 @@ object TC66F: TTC66F
       1064
       80)
     object Lms: TLabel
-      Left = 202
+      Left = 358
       Top = 8
       Width = 18
       Height = 16
@@ -140,7 +140,7 @@ object TC66F: TTC66F
       Shape = bsFrame
     end
     object ind_rx: TShape
-      Left = 274
+      Left = 430
       Top = 8
       Width = 33
       Height = 16
@@ -164,7 +164,7 @@ object TC66F: TTC66F
       OnClick = BiniClick
     end
     object BStart: TButton
-      Left = 224
+      Left = 380
       Top = 4
       Width = 44
       Height = 25
@@ -179,7 +179,7 @@ object TC66F: TTC66F
     object CBCom: TComboBox
       Left = 50
       Top = 4
-      Width = 85
+      Width = 238
       Height = 24
       Hint = 'Select COM port'
       ItemHeight = 16
@@ -190,7 +190,7 @@ object TC66F: TTC66F
       OnDropDown = CBComDropDown
     end
     object EdDelay: TEdit
-      Left = 144
+      Left = 300
       Top = 4
       Width = 53
       Height = 24
@@ -405,7 +405,7 @@ object TC66F: TTC66F
       TabOrder = 15
     end
     object STTime: TStaticText
-      Left = 340
+      Left = 496
       Top = 8
       Width = 24
       Height = 20
@@ -426,17 +426,17 @@ object TC66F: TTC66F
     Enabled = False
     Interval = 100
     OnTimer = TimerTimer
-    Left = 592
+    Left = 764
     Top = 4
   end
   object UTimer: TTimer
     Interval = 20
     OnTimer = UTimerTimer
-    Left = 536
+    Left = 708
     Top = 4
   end
   object PMChart: TPopupMenu
-    Left = 564
+    Left = 736
     Top = 4
     object Pan: TMenuItem
       Caption = 'Pan'
@@ -471,15 +471,15 @@ object TC66F: TTC66F
     end
   end
   object OpenDialog: TOpenDialog
-    Left = 480
+    Left = 652
     Top = 4
   end
   object SaveDialog: TSaveDialog
-    Left = 452
+    Left = 624
     Top = 4
   end
   object PMCtl: TPopupMenu
-    Left = 508
+    Left = 680
     Top = 4
     object Rotatescreen: TMenuItem
       Caption = 'Rotate screen'

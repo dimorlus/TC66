@@ -202,7 +202,7 @@ bool PutChars(void* port, uint8_t *chs, int num)
  DWORD Actual;
  if (!port) return false;
  if (port == INVALID_HANDLE_VALUE) return false;
- if (WriteFile(port, chs, num, &Actual, NULL) && (Actual == num)) return true;
+ if (WriteFile(port, chs, num, &Actual, NULL) && (Actual == (DWORD)num)) return true;
  else return false;
 }
 
