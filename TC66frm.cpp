@@ -88,6 +88,8 @@ void __fastcall TTC66F::FormClose(TObject *Sender, TCloseAction &Action)
   }
  ini->WriteInteger("UART", "DELAY", atoi(EdDelay->Text.c_str()));
  ini->WriteString("FILES", "LS", ls);
+ ini->WriteBool("INTERFACE", "BLINK", Blink);
+ ini->WriteBool("INTERFACE", "MEMO", Memo);
  delete ini;
 }
 //---------------------------------------------------------------------------
@@ -230,6 +232,14 @@ AnsiString ad2scistrup(double d, const char* units, int prec, int adj)
  return str;
 }
 //---------------------------------------------------------------------------
+
+AnsiString at2str(double d, int adj)
+{
+ char str[64];
+ t2str(str, (__int64)d, adj, false);
+ return str;
+}
+//---------------------------------------------------------------------------
 // Compute the MODBUS RTU CRC
 uint16_t ModRTU_CRC(const uint8_t *buf, int len)
 {
@@ -283,9 +293,9 @@ void __fastcall TTC66F::TimerHandle(void)
          (*(uint32_t*)&TC66Data.pac2 == 0x32636170) && //"pac2"
          (*(uint32_t*)&TC66Data.pac3 == 0x33636170) && //"pac3"
          (*(uint32_t*)&TC66Data.model == 0x36364354) &&  //"TC66"
-         (TC66Data.chk1 == ModRTU_CRC(&TC66Data.raw[0], 60)) &&
-         (TC66Data.chk2 == ModRTU_CRC(&TC66Data.raw[64], 60)) &&
-         (TC66Data.chk3 == ModRTU_CRC(&TC66Data.raw[128], 60)))
+         (TC66Data.chk1 == (uint32_t)ModRTU_CRC(&TC66Data.raw[0], 60)) &&
+         (TC66Data.chk2 == (uint32_t)ModRTU_CRC(&TC66Data.raw[64], 60)) &&
+         (TC66Data.chk3 == (uint32_t)ModRTU_CRC(&TC66Data.raw[128], 60)))
        {
         if (Caption == "TC66")
          {
@@ -333,6 +343,7 @@ void __fastcall TTC66F::TimerHandle(void)
         int ms2 = GetTickCount();
         if ((ms2-ms1) > 990)
          {
+          STTime->Caption = at2str(TC66res.t, 0);
           if (Memo) lprintf(MTest->Lines,"%0.2fs %2.5fV %1.6fA\n",
                             TC66res.t, TC66res.V, TC66res.I);
           ms1 = ms2;
@@ -888,6 +899,8 @@ void __fastcall TTC66F::SavereportClick(TObject *Sender)
    FILE * File = fopen(SaveDialog->FileName.c_str(), "at");
    if (File)
     {
+     fprintf(File, "%s\n", Caption.c_str());
+     fprintf(File, "%s\n", FormatDateTime("c", Now()).c_str());
      fprintf(File, "Vm=%s\n", STVoltage->Caption.c_str());
      fprintf(File, "Im=%s\n", STCurrent->Caption.c_str());
      fprintf(File, "Pm=%s\n", STPower->Caption.c_str());

@@ -404,20 +404,40 @@ object TC66F: TTC66F
       ShowHint = True
       TabOrder = 15
     end
+    object STTime: TStaticText
+      Left = 340
+      Top = 8
+      Width = 24
+      Height = 20
+      Hint = 'Elapsed time'
+      Caption = '.. s'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 16
+    end
   end
   object Timer: TTimer
     Enabled = False
     Interval = 100
     OnTimer = TimerTimer
-    Left = 280
+    Left = 592
+    Top = 4
   end
   object UTimer: TTimer
     Interval = 20
     OnTimer = UTimerTimer
-    Left = 440
+    Left = 536
+    Top = 4
   end
   object PMChart: TPopupMenu
-    Left = 312
+    Left = 564
+    Top = 4
     object Pan: TMenuItem
       Caption = 'Pan'
       OnClick = PanClick
@@ -451,13 +471,16 @@ object TC66F: TTC66F
     end
   end
   object OpenDialog: TOpenDialog
-    Left = 376
+    Left = 480
+    Top = 4
   end
   object SaveDialog: TSaveDialog
-    Left = 344
+    Left = 452
+    Top = 4
   end
   object PMCtl: TPopupMenu
-    Left = 408
+    Left = 508
+    Top = 4
     object Rotatescreen: TMenuItem
       Caption = 'Rotate screen'
       OnClick = RotatescreenClick

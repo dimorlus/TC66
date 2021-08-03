@@ -77,6 +77,7 @@ __published:	// IDE-managed Components
         TBevel *BData;
         TShape *ind_rx;
         TMenuItem *Savereport;
+        TStaticText *STTime;
         void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
         void __fastcall FormCreate(TObject *Sender);
         void __fastcall TimerTimer(TObject *Sender);
