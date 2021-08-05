@@ -206,23 +206,27 @@ void __fastcall TTC66F::Log(TTC66res *TC66res)
    if (LogFile)
     {
      if (Title)
-      fprintf(LogFile, "%s%c%s%c%s%c%s%c%s%c%s%c%s\n",
+      fprintf(LogFile, "%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s%c%s\n",
        "Time, s", ls,
        "Volts, V", ls,
        "Amps, A", ls,
        "Ah0", ls,
        "Wh0", ls,
        "Ah1", ls,
-       "Wh1"
+       "Wh1", ls,
+       "W", ls,
+       "Tc"
        );
-     fprintf(LogFile, "%0.3f%c%2.5f%c%1.6f%c%0.4f%c%0.4f%c%0.4f%c%0.4f\n",
+     fprintf(LogFile, "%0.3f%c%2.5f%c%1.6f%c%0.4f%c%0.4f%c%0.4f%c%0.4f%c%0.4f%c%0.1f\n",
       TC66res->t, ls,
       TC66res->V, ls,
       TC66res->I, ls,
       TC66res->Ah0, ls,
       TC66res->Wh0, ls,
       TC66res->Ah1, ls,
-      TC66res->Wh1
+      TC66res->Wh1, ls,
+      TC66res->W, ls,
+      TC66res->Tc
       );
     }
    fclose(LogFile);
@@ -367,7 +371,7 @@ void __fastcall TTC66F::Stop(void)
     {
      BStart->Caption = "Start";
      Timer->Enabled = false;
-     lprintf(MTest->Lines,"Stop pooling from %fs\n", TC66res.t);
+     lprintf(MTest->Lines,"Stop pooling at %fs\n", TC66res.t);
     }
  }
 //---------------------------------------------------------------------------

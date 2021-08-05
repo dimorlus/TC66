@@ -11,16 +11,16 @@ File_8=SourceModule,'D:\Inst\Hardware\USB-C tester\PC\AES\aes.h',0,1,1,1,25,0,0
 
 [Modules]
 Module0=D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp
-Module1=D:\Inst\Hardware\USB-C tester\PC\ports.cpp
-Module2=D:\Inst\Hardware\USB-C tester\PC\Serial.cpp
-Module3=D:\Inst\Hardware\USB-C tester\PC\AES256.cpp
-Module4=D:\Inst\Hardware\USB-C tester\PC\datastr.cpp
-Module5=D:\Inst\Hardware\USB-C tester\PC\strnum.cpp
-Module6=c:\program files (x86)\borland\cbuilder6\include\stdint.h
-Module7=c:\program files (x86)\borland\cbuilder6\include\vcl\dstring.h
-Module8=D:\Inst\Hardware\USB-C tester\PC\StrUtils.cpp
-Module9=D:\Inst\Hardware\USB-C tester\PC\TC66data.cpp
-Module10=D:\Inst\Hardware\USB-C tester\PC\TC66.bpr
+Module1=D:\Inst\Hardware\USB-C tester\PC\Serial.cpp
+Module2=c:\program files (x86)\borland\cbuilder6\include\stdint.h
+Module3=c:\program files (x86)\borland\cbuilder6\include\vcl\dstring.h
+Module4=D:\Inst\Hardware\USB-C tester\PC\StrUtils.cpp
+Module5=D:\Inst\Hardware\USB-C tester\PC\TC66data.cpp
+Module6=D:\Inst\Hardware\USB-C tester\PC\strnum.cpp
+Module7=D:\Inst\Hardware\USB-C tester\PC\TC66.bpr
+Module8=D:\Inst\Hardware\USB-C tester\PC\AES256.cpp
+Module9=D:\Inst\Hardware\USB-C tester\PC\datastr.cpp
+Module10=D:\Inst\Hardware\USB-C tester\PC\ports.cpp
 Count=11
 EditWindowCount=1
 
@@ -29,27 +29,7 @@ ModuleType=SourceModule
 FormState=1
 FormOnTop=0
 
-[D:\Inst\Hardware\USB-C tester\PC\ports.cpp]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
 [D:\Inst\Hardware\USB-C tester\PC\Serial.cpp]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[D:\Inst\Hardware\USB-C tester\PC\AES256.cpp]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[D:\Inst\Hardware\USB-C tester\PC\datastr.cpp]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[D:\Inst\Hardware\USB-C tester\PC\strnum.cpp]
 ModuleType=SourceModule
 FormState=0
 FormOnTop=0
@@ -74,7 +54,27 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
+[D:\Inst\Hardware\USB-C tester\PC\strnum.cpp]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
 [D:\Inst\Hardware\USB-C tester\PC\TC66.bpr]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
+[D:\Inst\Hardware\USB-C tester\PC\AES256.cpp]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
+[D:\Inst\Hardware\USB-C tester\PC\datastr.cpp]
+ModuleType=SourceModule
+FormState=0
+FormOnTop=0
+
+[D:\Inst\Hardware\USB-C tester\PC\ports.cpp]
 ModuleType=SourceModule
 FormState=0
 FormOnTop=0
@@ -117,13 +117,13 @@ LeftPanelData=000004000000000000000000000000000000000000000000000100000000000000
 RightPanelSize=0
 BottomPanelSize=0
 BottomPanelClients=MessageView@EditWindow0
-BottomPanelData=00000400010000000B0000004D657373616765566965772005000000000000025500000000000000010000000000000000000000000100000000110500000000000001000000001105000000000000010000000020050000000000000100000000200500000000000001000000002005000000000000010000000020050000000000000100000000200500000000000001000000002005000000000000010000000020050000000000000100000000200500000B0000004D65737361676556696577FFFFFFFF
+BottomPanelData=00000400010000000B0000004D6573736167655669657720050000000000000255000000000000000100000000000000000000000001000000001105000000000000010000000011050000000000000100000000200500000000000001000000002005000000000000010000000020050000000000000100000000200500000000000001000000002005000000000000010000000020050000000000000100000000200500000000000001000000002005000000000000FFFFFFFF
 
 [View0]
 Module=D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp
-CursorX=1
-CursorY=34
-TopLine=19
+CursorX=72
+CursorY=220
+TopLine=200
 LeftCol=1
 
 [View1]
