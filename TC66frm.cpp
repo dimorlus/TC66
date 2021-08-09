@@ -362,6 +362,7 @@ void __fastcall TTC66F::TimerHandle(void)
        }
     }
   }
+ else UTimer->Enabled = false;
 }
 //---------------------------------------------------------------------------
 
@@ -371,6 +372,7 @@ void __fastcall TTC66F::Stop(void)
     {
      BStart->Caption = "Start";
      Timer->Enabled = false;
+     UTimer->Enabled = false;
      lprintf(MTest->Lines,"Stop pooling at %fs\n", TC66res.t);
     }
  }
@@ -386,6 +388,7 @@ void __fastcall TTC66F::Start(void)
      lprintf(MTest->Lines,"Polling period %dms\n", Timer->Interval);
      lprintf(MTest->Lines,"Start pooling from %fs\n", TC66res.t);
      lastms = GetTickCount();
+     UTimer->Enabled = true;
      Timer->Enabled = true;
     }
  }

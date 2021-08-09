@@ -1,0 +1,1 @@
+"c:\program files\winrar\rar" u d:\Projects\LED\Alex\Backup\TC66.rar -r -ver -x.git\*.* -x.tmp.drivedownload\*.* -x@.gitignore -xDatasheets\*.* -ed

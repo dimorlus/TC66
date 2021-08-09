@@ -58,10 +58,12 @@ object TC66F: TTC66F
     OnClickSeries = ChartClickSeries
     BottomAxis.Title.Caption = 'Time, s'
     LeftAxis.AxisValuesFormat = '#,##0.######'
+    LeftAxis.StartPosition = 2
     LeftAxis.Title.Caption = 'Voltage, V'
     Legend.HorizMargin = 1
     Legend.ShadowSize = 1
     RightAxis.AxisValuesFormat = '#,##0.######'
+    RightAxis.StartPosition = 2
     RightAxis.Title.Caption = 'Current, A'
     View3D = False
     Align = alBottom
@@ -75,6 +77,7 @@ object TC66F: TTC66F
     OnMouseWheelDown = ChartMouseWheelDown
     OnMouseWheelUp = ChartMouseWheelUp
     object Voltage: TFastLineSeries
+      Cursor = crCross
       Marks.ArrowLength = 8
       Marks.Style = smsValue
       Marks.Visible = False
@@ -91,6 +94,7 @@ object TC66F: TTC66F
       YValues.Order = loNone
     end
     object Current: TFastLineSeries
+      Cursor = crCross
       Marks.ArrowLength = 8
       Marks.Visible = False
       SeriesColor = clGreen
