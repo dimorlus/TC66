@@ -11,12 +11,12 @@ File_8=SourceModule,'D:\Inst\Hardware\USB-C tester\PC\AES\aes.h',0,1,1,1,25,0,0
 
 [Modules]
 Module0=D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp
-Module1=D:\Inst\Hardware\USB-C tester\PC\Serial.cpp
-Module2=c:\program files (x86)\borland\cbuilder6\include\stdint.h
-Module3=c:\program files (x86)\borland\cbuilder6\include\vcl\dstring.h
-Module4=D:\Inst\Hardware\USB-C tester\PC\StrUtils.cpp
-Module5=D:\Inst\Hardware\USB-C tester\PC\TC66data.cpp
-Module6=D:\Inst\Hardware\USB-C tester\PC\strnum.cpp
+Module1=D:\Inst\Hardware\USB-C tester\PC\strnum.cpp
+Module2=D:\Inst\Hardware\USB-C tester\PC\Serial.cpp
+Module3=c:\program files (x86)\borland\cbuilder6\include\stdint.h
+Module4=c:\program files (x86)\borland\cbuilder6\include\vcl\dstring.h
+Module5=D:\Inst\Hardware\USB-C tester\PC\StrUtils.cpp
+Module6=D:\Inst\Hardware\USB-C tester\PC\TC66data.cpp
 Module7=D:\Inst\Hardware\USB-C tester\PC\AES256.cpp
 Module8=D:\Inst\Hardware\USB-C tester\PC\datastr.cpp
 Module9=D:\Inst\Hardware\USB-C tester\PC\ports.cpp
@@ -26,6 +26,11 @@ EditWindowCount=1
 [D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp]
 ModuleType=SourceModule
 FormState=1
+FormOnTop=0
+
+[D:\Inst\Hardware\USB-C tester\PC\strnum.cpp]
+ModuleType=SourceModule
+FormState=0
 FormOnTop=0
 
 [D:\Inst\Hardware\USB-C tester\PC\Serial.cpp]
@@ -53,11 +58,6 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
-[D:\Inst\Hardware\USB-C tester\PC\strnum.cpp]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
 [D:\Inst\Hardware\USB-C tester\PC\AES256.cpp]
 ModuleType=SourceModule
 FormState=0
@@ -73,11 +73,11 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
-[D:\Inst\Hardware\USB-C tester\PC\TC66.bpr]
+[C:\Program Files (x86)\Borland\CBuilder6\Projects\ProjectGroup1.bpg]
 FormState=0
 FormOnTop=0
 
-[C:\Program Files (x86)\Borland\CBuilder6\Projects\ProjectGroup1.bpg]
+[D:\Inst\Hardware\USB-C tester\PC\TC66.bpr]
 FormState=0
 FormOnTop=0
 
@@ -119,8 +119,8 @@ BottomPanelData=00000400010000000B0000004D65737361676556696577200500000000000002
 [View0]
 Module=D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp
 CursorX=1
-CursorY=728
-TopLine=711
+CursorY=637
+TopLine=341
 LeftCol=1
 
 [View1]
@@ -191,8 +191,7 @@ Count=1
 Watch0='*(uint32_t*)&TC66Data.model',256,0,18,1,0,'Watches'
 
 [Breakpoints]
-Count=1
-Breakpoint0='D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp',637,'',0,1,'',1,0,0,'',1,'','',''
+Count=0
 
 [AddressBreakpoints]
 Count=0
@@ -318,9 +317,9 @@ ClientHeight=520
 TBDockHeight=553
 LRDockWidth=190
 Dockable=1
-SplitPos=99
+SplitPos=137
 ArrangeBy=Name
-SelectedItem=Name
+SelectedItem=Items
 ExpandedItems=BottomAxis,BottomAxis.Ticks,Brush,Font,Font.Style,LeftAxis,RightAxis,XValues,YValues
 HiddenCategories=
 

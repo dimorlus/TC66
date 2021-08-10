@@ -115,6 +115,8 @@ __published:	// IDE-managed Components
         void __fastcall PreviouspageClick(TObject *Sender);
         void __fastcall AppendcsvClick(TObject *Sender);
         void __fastcall SavereportClick(TObject *Sender);
+        void __fastcall ChartClickLegend(TCustomChart *Sender,
+          TMouseButton Button, TShiftState Shift, int X, int Y);
 private:	// User declarations
         void *Port;
         AnsiString LogName;

@@ -55,6 +55,7 @@ object TC66F: TTC66F
     Title.Text.Strings = (
       '')
     OnClickAxis = ChartClickAxis
+    OnClickLegend = ChartClickLegend
     OnClickSeries = ChartClickSeries
     BottomAxis.Title.Caption = 'Time, s'
     LeftAxis.AxisValuesFormat = '#,##0.######'
@@ -307,7 +308,7 @@ object TC66F: TTC66F
       TabOrder = 9
     end
     object STLocalPower: TStaticText
-      Left = 400
+      Left = 410
       Top = 36
       Width = 30
       Height = 20
@@ -392,7 +393,7 @@ object TC66F: TTC66F
       TabOrder = 14
     end
     object STTmp: TStaticText
-      Left = 400
+      Left = 410
       Top = 56
       Width = 31
       Height = 20

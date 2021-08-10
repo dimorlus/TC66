@@ -362,7 +362,7 @@ void __fastcall TTC66F::TimerHandle(void)
        }
     }
   }
- else UTimer->Enabled = false;
+ //else UTimer->Enabled = false;
 }
 //---------------------------------------------------------------------------
 
@@ -372,7 +372,7 @@ void __fastcall TTC66F::Stop(void)
     {
      BStart->Caption = "Start";
      Timer->Enabled = false;
-     UTimer->Enabled = false;
+     //UTimer->Enabled = false;
      lprintf(MTest->Lines,"Stop pooling at %fs\n", TC66res.t);
     }
  }
@@ -929,6 +929,22 @@ void __fastcall TTC66F::SavereportClick(TObject *Sender)
     }
    fclose(File);
   }
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TTC66F::ChartClickLegend(TCustomChart *Sender,
+      TMouseButton Button, TShiftState Shift, int X, int Y)
+{
+ int i = 0;
+ char str[64];
+ str[0] = '\0';
+ i += t2str(str, (int)TC66res.t, 0, false);
+ i += add(&str[i], '\n');
+ i += d2scistrup(&str[i], TC66res.V, "V", 5, 0);
+ i += add(&str[i], '\n');
+ i += d2scistrup(&str[i], TC66res.I, "A", 5, 0);
+ Chart->Hint = str;
 }
 //---------------------------------------------------------------------------
 
