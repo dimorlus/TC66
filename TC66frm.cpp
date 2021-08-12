@@ -372,7 +372,7 @@ void __fastcall TTC66F::Stop(void)
     {
      BStart->Caption = "Start";
      Timer->Enabled = false;
-     //UTimer->Enabled = false;
+     UTimer->Enabled = false;
      lprintf(MTest->Lines,"Stop pooling at %fs\n", TC66res.t);
     }
  }
