@@ -53,3 +53,5 @@ vc_redist.*
 log.txt
 .tmp*/
 Reports/*
+data.csv
+pack.cmd
