@@ -117,9 +117,13 @@ __published:	// IDE-managed Components
         void __fastcall SavereportClick(TObject *Sender);
         void __fastcall ChartClickLegend(TCustomChart *Sender,
           TMouseButton Button, TShiftState Shift, int X, int Y);
+        void __fastcall ChartMouseDown(TObject *Sender,
+          TMouseButton Button, TShiftState Shift, int X, int Y);
 private:	// User declarations
         void *Port;
         AnsiString LogName;
+        AnsiString LastName;
+
         double kCurr;
         char ls;
         TTC66res TC66res;

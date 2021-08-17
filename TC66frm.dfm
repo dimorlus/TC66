@@ -75,6 +75,7 @@ object TC66F: TTC66F
     TabOrder = 0
     TabStop = True
     Anchors = [akLeft, akTop, akRight, akBottom]
+    OnMouseDown = ChartMouseDown
     OnMouseWheelDown = ChartMouseWheelDown
     OnMouseWheelUp = ChartMouseWheelUp
     object Voltage: TFastLineSeries

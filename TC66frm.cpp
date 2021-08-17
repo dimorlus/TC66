@@ -61,6 +61,7 @@ void __fastcall TTC66F::FormCreate(TObject *Sender)
   if (ExtractFilePath(LogName) == "")
    LogName = ExtractFilePath(Application->ExeName)+ LogName;
   ls = ini->ReadString("FILES", "LS", ListSeparator)[1];
+  LastName = ini->ReadString("FILES", "LASTNAME", "");
   kCurr = ini->ReadFloat("TC66", "KCURR", 1.0);
   Blink = ini->ReadBool("INTERFACE", "BLINK", 1);
   Memo = ini->ReadBool("INTERFACE", "MEMO", 1);
@@ -93,6 +94,7 @@ void __fastcall TTC66F::FormClose(TObject *Sender, TCloseAction &Action)
  ini->WriteBool("UART", "DESCRIPTION", PortDescription);
  ini->WriteInteger("UART", "DELAY", atoi(EdDelay->Text.c_str()));
  ini->WriteString("FILES", "LS", ls);
+ ini->WriteString("FILES", "LASTNAME", LastName);
  ini->WriteBool("INTERFACE", "BLINK", Blink);
  ini->WriteBool("INTERFACE", "MEMO", Memo);
  delete ini;
@@ -663,9 +665,29 @@ void __fastcall TTC66F::ChartClickSeries(TCustomChart *Sender,
       TChartSeries *Series, int ValueIndex, TMouseButton Button,
       TShiftState Shift, int X, int Y)
 {
- int i;
+ double t, I, V;
+ int i = 0;
  char str[64];
  str[0] = '\0';
+
+   if (ValueIndex > 0)
+    {
+     t = Series->XValue[ValueIndex];
+     V = Chart->Series[0]->YValue[ValueIndex];
+     I = Chart->Series[1]->YValue[ValueIndex];
+
+     i += t2str(&str[i], (int)t, 0, false);
+     i += add(&str[i], '\n');
+     i += d2scistrup(&str[i], V, "V", 5, 0);
+     i += add(&str[i], '\n');
+     i += d2scistrup(&str[i], I, "A", 5, 0);
+     i += add(&str[i], '\n');
+     i += d2scistrup(&str[i], I*V, "W", 5, 0);
+     Chart->Hint = str;
+    }
+   else Chart->Hint = "";
+
+/*
  double t = Series->XValue[ValueIndex];
  double y = Series->YValue[ValueIndex];
  i = t2str(str, (int)t, 0, false);
@@ -676,6 +698,7 @@ void __fastcall TTC66F::ChartClickSeries(TCustomChart *Sender,
  if (Series == Chart->Series[1]) d2scistrup(&str[i], y, "A", 5, 0);
 
  Chart->Hint = str;
+*/ 
 }
 //---------------------------------------------------------------------------
 
@@ -714,12 +737,13 @@ void __fastcall TTC66F::PanClick(TObject *Sender)
 
 void __fastcall TTC66F::LoadcsvClick(TObject *Sender)
 {
- OpenDialog->InitialDir = ExtractFileDir(LogName);
+ OpenDialog->InitialDir = ExtractFileDir(LastName);
  OpenDialog->Filter = "CSV log(*.csv)|*.csv";
- OpenDialog->FileName = LogName;
+ OpenDialog->FileName = LastName;
  OpenDialog->Title = "Open log file";
  if (OpenDialog->Execute())
   {
+   LastName = OpenDialog->FileName;
    Stop();
    AppendTime = 0;
    ClearClick(Sender);
@@ -730,12 +754,13 @@ void __fastcall TTC66F::LoadcsvClick(TObject *Sender)
 
 void __fastcall TTC66F::AppendcsvClick(TObject *Sender)
 {
- OpenDialog->InitialDir = ExtractFileDir(LogName);
+ OpenDialog->InitialDir = ExtractFileDir(LastName);
  OpenDialog->Filter = "CSV log(*.csv)|*.csv";
- OpenDialog->FileName = LogName;
+ OpenDialog->FileName = LastName;
  OpenDialog->Title = "Open log file";
  if (OpenDialog->Execute())
   {
+   LastName = OpenDialog->FileName;
    Stop();
    TC66res.t = AppendTime = Chart->BottomAxis->Maximum;
    Load_csv(OpenDialog->FileName);
@@ -843,12 +868,13 @@ void __fastcall TTC66F::SaveClick(TObject *Sender)
  SaveDialog->DefaultExt = "bmp";
  SaveDialog->Filter =
   "BMP (*.bmp)|*.bmp|WMF (*.wmf)|*.wmf|CSV (*.csv)|*.csv";
- SaveDialog->InitialDir = ExtractFileDir(LogName);
+ SaveDialog->InitialDir = ExtractFileDir(LastName);
  SaveDialog->Title = "Save graph";
- SaveDialog->FileName = ChangeFileExt(LogName, ".bmp");
- SaveDialog->FilterIndex = 1;
+ SaveDialog->FileName = LastName;
+ SaveDialog->FilterIndex = 3;
  if (SaveDialog->Execute())
   {
+   LastName = SaveDialog->FileName;
    switch (SaveDialog->FilterIndex)
     {
      case 1: Chart->SaveToBitmapFile(SaveDialog->FileName); break;
@@ -945,6 +971,15 @@ void __fastcall TTC66F::ChartClickLegend(TCustomChart *Sender,
  i += add(&str[i], '\n');
  i += d2scistrup(&str[i], TC66res.I, "A", 5, 0);
  Chart->Hint = str;
+}
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+
+void __fastcall TTC66F::ChartMouseDown(TObject *Sender,
+      TMouseButton Button, TShiftState Shift, int X, int Y)
+{
+ Chart->Hint = "";
 }
 //---------------------------------------------------------------------------
 
