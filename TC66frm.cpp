@@ -52,9 +52,6 @@ __fastcall TTC66F::TTC66F(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TTC66F::FormCreate(TObject *Sender)
 {
-  char str[128];
-  dt2str(str, 30003.909, 0, false);
-
   CBCom->Text = CBCom->Items->Strings[0];
   TIniFile *ini = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
   CBCom->Text = ini->ReadString("UART", "PORT", "COM1");
