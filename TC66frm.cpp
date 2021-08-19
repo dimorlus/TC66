@@ -18,6 +18,7 @@
 #include "TC66data.h"
 #include "TC66frm.h"
 //---------------------------------------------------------------------------
+#pragma warn -8004
 #pragma package(smart_init)
 #pragma link "PERFGRAP"
 #pragma resource "*.dfm"
