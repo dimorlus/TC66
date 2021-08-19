@@ -125,6 +125,7 @@ private:	// User declarations
         AnsiString LastName;
 
         double kCurr;
+        double kVolt;
         char ls;
         TTC66res TC66res;
         TTC66localCounter TC66localCounter;
@@ -140,6 +141,8 @@ private:	// User declarations
         void __fastcall Save_csv(AnsiString fName);
         void __fastcall Stop(void);
         void __fastcall Start(void);
+        void __fastcall LoadCal(int sn);
+
 
 public:		// User declarations
         bool MMTimer;

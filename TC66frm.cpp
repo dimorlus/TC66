@@ -63,6 +63,7 @@ void __fastcall TTC66F::FormCreate(TObject *Sender)
   ls = ini->ReadString("FILES", "LS", ListSeparator)[1];
   LastName = ini->ReadString("FILES", "LASTNAME", "");
   kCurr = ini->ReadFloat("TC66", "KCURR", 1.0);
+  kVolt = ini->ReadFloat("TC66", "KVOLT", 1.0);
   Blink = ini->ReadBool("INTERFACE", "BLINK", 1);
   Memo = ini->ReadBool("INTERFACE", "MEMO", 1);
   delete ini;
@@ -80,6 +81,16 @@ void __fastcall TTC66F::FormCreate(TObject *Sender)
   ind_rx->Visible = Blink;
   //TC66F->PixelsPerInch = 96;
 }
+//---------------------------------------------------------------------------
+void __fastcall TTC66F::LoadCal(int sn)
+{
+  AnsiString TC66 = asprintf("TC66_%d", sn);
+  TIniFile *ini = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
+  kCurr = ini->ReadFloat(TC66, "KCURR", 1.0);
+  kVolt = ini->ReadFloat(TC66, "KVOLT", 1.0);
+  delete ini;
+}
+
 //---------------------------------------------------------------------------
 void __fastcall TTC66F::FormClose(TObject *Sender, TCloseAction &Action)
 {
@@ -138,32 +149,31 @@ void __fastcall TTC66F::CBComDropDown(TObject *Sender)
 //---------------------------------------------------------------------------
 int __fastcall TTC66F::GetResolution(int target)
 {
-    TIMECAPS tc;
-    unsigned int uiTimerRes;
-    int tmp;
+ TIMECAPS tc;
+ unsigned int uiTimerRes;
+ int tmp;
 
-    timeGetDevCaps(&tc, sizeof(TIMECAPS));
+ timeGetDevCaps(&tc, sizeof(TIMECAPS));
 
-    if ((int)tc.wPeriodMin > target) tmp = (int)tc.wPeriodMin;
-    else tmp = target;
+ if ((int)tc.wPeriodMin > target) tmp = (int)tc.wPeriodMin;
+ else tmp = target;
 
-    if (tmp < (int)tc.wPeriodMax) uiTimerRes = tmp;
-    else uiTimerRes = (int)tc.wPeriodMax;
+ if (tmp < (int)tc.wPeriodMax) uiTimerRes = tmp;
+ else uiTimerRes = (int)tc.wPeriodMax;
 
-    //uiTimerRes = min(max((int)tc.wPeriodMin, target), (int)tc.wPeriodMax);
-    timeBeginPeriod(uiTimerRes);
-    return uiTimerRes;
+ //uiTimerRes = min(max((int)tc.wPeriodMin, target), (int)tc.wPeriodMax);
+ timeBeginPeriod(uiTimerRes);
+ return uiTimerRes;
 }
 //---------------------------------------------------------------------------
 int __fastcall TTC66F::StartMMTimer(int Interval, int Resolution, DWORD data)
 {
-    return timeSetEvent(Interval, Resolution, TimerProc,
-                        data, TIME_PERIODIC);
+ return timeSetEvent(Interval, Resolution, TimerProc, data, TIME_PERIODIC);
 }
 //---------------------------------------------------------------------------
 void __fastcall TTC66F::KillMMTimer(int FTimerID)
 {
-    timeKillEvent(FTimerID);
+ timeKillEvent(FTimerID);
 }
 //---------------------------------------------------------------------------
 void __fastcall TTC66F::StartMMT(int Interval)
@@ -248,7 +258,6 @@ AnsiString ad2scistrup(double d, const char* units, int prec, int adj)
 AnsiString at2str(double d, int adj)
 {
  char str[64];
- //t2str(str, (__int64)d, adj, false);
  dt2str(str, d, adj, false);
  return str;
 }
@@ -316,16 +325,17 @@ void __fastcall TTC66F::TimerHandle(void)
            TC66Data.model[0],  TC66Data.model[1],TC66Data.model[2],TC66Data.model[3],
            TC66Data.ver[0], TC66Data.ver[1], TC66Data.ver[2], TC66Data.ver[3],
            TC66Data.sn);
+           LoadCal(TC66Data.sn);
          }
 
-        TC66res.V = TC66Data.Volts/10000.0;
+        TC66res.V = kVolt*TC66Data.Volts/10000.0;
         TC66res.I = kCurr*TC66Data.Amps/100000.0;
-        TC66res.W = kCurr*TC66Data.Watts/10000.0;
-        TC66res.R = (TC66Data.Ohms/10.0)/kCurr;
+        TC66res.W = kVolt*kCurr*TC66Data.Watts/10000.0;
+        TC66res.R = kVolt*(TC66Data.Ohms/10.0)/kCurr;
         TC66res.Ah0 = kCurr*TC66Data.mAh0/1000.0;
-        TC66res.Wh0 = kCurr*TC66Data.mWh0/1000.0;
+        TC66res.Wh0 = kVolt*kCurr*TC66Data.mWh0/1000.0;
         TC66res.Ah1 = kCurr*TC66Data.mAh1/1000.0;
-        TC66res.Wh1 = kCurr*TC66Data.mWh1/1000.0;
+        TC66res.Wh1 = kVolt*kCurr*TC66Data.mWh1/1000.0;
         double dt = (currms-lastms)/1000.0;
         TC66res.t += dt;
         lastms = currms;
@@ -365,7 +375,6 @@ void __fastcall TTC66F::TimerHandle(void)
        }
     }
   }
- //else UTimer->Enabled = false;
 }
 //---------------------------------------------------------------------------
 
