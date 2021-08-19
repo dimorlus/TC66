@@ -200,10 +200,9 @@ int dtostr(char *str, double d, int decimals)
   res+=add(str, '.');
   while(decimals)
    {
-    int n;
     decimals--;
     fract *= 10.0;
-    n = (int)fract;
+    int n = (int)fract;
     char c = '0'+n%10;
     res+=add(str, c);
    }
