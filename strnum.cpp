@@ -194,16 +194,16 @@ int dtostr(char *str, double d, int decimals)
     minus = 1;
    }
   int whole = (int)d;
-  double fract = (d - whole);
+  double fract = rnd(d - whole, decimals);
   res += itos(str, whole);
   int wlen = res;
   res+=add(str, '.');
   while(decimals)
    {
+    int n;
     decimals--;
     fract *= 10.0;
-    int n = ((int)(fract*10.0+0.5))/10.0;
-    if (n&&(n%10 == 0)) n--;
+    n = (int)fract;
     char c = '0'+n%10;
     res+=add(str, c);
    }
@@ -306,6 +306,52 @@ int t2str(char *str, __int64 sec, int adj, bool full)
  for(i = j; i <= k; i++)
   {
    str += itosa(str, pt[i], w[i]);
+   str += adds(str, fmt[i]);
+  }
+ int res = str-pc;
+ if (adj > 0) while (res < adj) res += ins(pc, ' ');
+ else
+ if (adj < 0) while (res < -adj) res += add(str, ' ');
+ return res;
+}
+//---------------------------------------------------------------------------
+//time in seconds to date and time string
+int dt2str(char *str, double dsec, int adj, bool full)
+{
+ const unsigned __int64 dms[] =
+   {(60i64*60*60*24*365.25*100i64),(60i64*60*24*365.25),
+    (60i64*60*24), (60i64*60), 60i64, 1i64};
+ const char * fmt[] =
+   {":c ", ":y ", ":d ", ":h ", ":m ", ":s "};
+ const char w[] =
+   { 0,      3,     3,     2,     2,     2};
+ unsigned int pt[6];
+ int i, j, k;
+ char *pc = str;
+ int sec = (int)dsec;
+ //int fract = (int)((dsec - sec)*1000.0);
+ double fract = (dsec - sec);
+
+ for(i = 0, j = -1, k = 0; i < 6; i++)
+  {
+    pt[i] = (unsigned int)(sec / dms[i]);
+    sec %= dms[i];
+    if ((j == -1) && (pt[i] != 0)) j = i;
+    if ((j != -1) && (pt[i] != 0)) k = i;
+  }
+ if (full) k = 5;
+ *str = '\0';
+ if (j == -1) str += adds(str, "0:s");
+ else
+ for(i = j; i <= k; i++)
+  {
+   str += itosa(str, pt[i], w[i]);
+   if (i==5)
+    {
+     char *p = str;
+     str += dtostr(str, fract, 3);
+     str -= dels(p, 0, 1);
+    }
    str += adds(str, fmt[i]);
   }
  int res = str-pc;

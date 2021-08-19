@@ -57,6 +57,9 @@ extern double nrnd(double d, int n);
 //time in seconds to date and time string
 extern int t2str(char *str, __int64 sec, int adj, bool full);
 
+//time in seconds to date and time string
+extern int dt2str(char *str, double dsec, int adj, bool full);
+
 //floating point double to engineering string
 extern int d2scistru(char *str, double d, const char* units);
 

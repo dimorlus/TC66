@@ -1,4 +1,3 @@
-del "Setup\TesterEngineeringSetup.exe"
 del *.obj
 del *.dcu
 del *.ddp

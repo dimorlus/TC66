@@ -52,6 +52,9 @@ __fastcall TTC66F::TTC66F(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TTC66F::FormCreate(TObject *Sender)
 {
+  char str[128];
+  dt2str(str, 30003.909, 0, false);
+
   CBCom->Text = CBCom->Items->Strings[0];
   TIniFile *ini = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
   CBCom->Text = ini->ReadString("UART", "PORT", "COM1");
@@ -248,7 +251,8 @@ AnsiString ad2scistrup(double d, const char* units, int prec, int adj)
 AnsiString at2str(double d, int adj)
 {
  char str[64];
- t2str(str, (__int64)d, adj, false);
+ //t2str(str, (__int64)d, adj, false);
+ dt2str(str, d, adj, false);
  return str;
 }
 //---------------------------------------------------------------------------
@@ -676,7 +680,7 @@ void __fastcall TTC66F::ChartClickSeries(TCustomChart *Sender,
      V = Chart->Series[0]->YValue[ValueIndex];
      I = Chart->Series[1]->YValue[ValueIndex];
 
-     i += t2str(&str[i], (int)t, 0, false);
+     i += dt2str(&str[i], t, 0, false);
      i += add(&str[i], '\n');
      i += d2scistrup(&str[i], V, "V", 5, 0);
      i += add(&str[i], '\n');
@@ -711,7 +715,7 @@ void __fastcall TTC66F::ChartClickAxis(TCustomChart *Sender,
  if (Axis == Chart->BottomAxis)
   {
    double t = Axis->CalcPosPoint(X);
-   t2str(str, (int)t, 0, false);
+   dt2str(str, t, 0, false);
   }
  else
  if (Axis == Chart->LeftAxis)
@@ -965,7 +969,7 @@ void __fastcall TTC66F::ChartClickLegend(TCustomChart *Sender,
  int i = 0;
  char str[64];
  str[0] = '\0';
- i += t2str(str, (int)TC66res.t, 0, false);
+ i += dt2str(str, TC66res.t, 0, false);
  i += add(&str[i], '\n');
  i += d2scistrup(&str[i], TC66res.V, "V", 5, 0);
  i += add(&str[i], '\n');
