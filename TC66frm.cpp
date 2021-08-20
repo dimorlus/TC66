@@ -12,7 +12,6 @@
 #include "sys_utils.h"
 #include "StrUtils.h"
 #include "strnum.h"
-#include "datastr.h"
 #include "Serial.h"
 #include "ports.h"
 #include "TC66data.h"
@@ -687,36 +686,22 @@ void __fastcall TTC66F::ChartClickSeries(TCustomChart *Sender,
  int i = 0;
  char str[64];
  str[0] = '\0';
+ if (ValueIndex > 0)
+  {
+   t = Series->XValue[ValueIndex];
+   V = Chart->Series[0]->YValue[ValueIndex];
+   I = Chart->Series[1]->YValue[ValueIndex];
 
-   if (ValueIndex > 0)
-    {
-     t = Series->XValue[ValueIndex];
-     V = Chart->Series[0]->YValue[ValueIndex];
-     I = Chart->Series[1]->YValue[ValueIndex];
-
-     i += dt2str(&str[i], t, 0, false);
-     i += add(&str[i], '\n');
-     i += d2scistrup(&str[i], V, "V", 5, 0);
-     i += add(&str[i], '\n');
-     i += d2scistrup(&str[i], I, "A", 5, 0);
-     i += add(&str[i], '\n');
-     i += d2scistrup(&str[i], I*V, "W", 5, 0);
-     Chart->Hint = str;
-    }
-   else Chart->Hint = "";
-
-/*
- double t = Series->XValue[ValueIndex];
- double y = Series->YValue[ValueIndex];
- i = t2str(str, (int)t, 0, false);
- i += add(&str[i], '\n');
-
- if (Series == Chart->Series[0]) d2scistrup(&str[i], y, "V", 5, 0);
- else
- if (Series == Chart->Series[1]) d2scistrup(&str[i], y, "A", 5, 0);
-
- Chart->Hint = str;
-*/ 
+   i += dt2str(&str[i], t, 0, false);
+   i += add(&str[i], '\n');
+   i += d2scistrup(&str[i], V, "V", 5, 0);
+   i += add(&str[i], '\n');
+   i += d2scistrup(&str[i], I, "A", 5, 0);
+   i += add(&str[i], '\n');
+   i += d2scistrup(&str[i], I*V, "W", 5, 0);
+   Chart->Hint = str;
+  }
+ else Chart->Hint = "";
 }
 //---------------------------------------------------------------------------
 
@@ -979,7 +964,6 @@ void __fastcall TTC66F::SavereportClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-
 void __fastcall TTC66F::ChartClickLegend(TCustomChart *Sender,
       TMouseButton Button, TShiftState Shift, int X, int Y)
 {
@@ -993,7 +977,6 @@ void __fastcall TTC66F::ChartClickLegend(TCustomChart *Sender,
  i += d2scistrup(&str[i], TC66res.I, "A", 5, 0);
  Chart->Hint = str;
 }
-//---------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------
 

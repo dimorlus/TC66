@@ -4,8 +4,8 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="TC66.exe"/>
-    <OBJFILES value="TC66.obj TC66frm.obj datastr.obj Serial.obj sservice.obj strnum.obj 
-      StrUtils.obj sys_utils.obj TC66data.obj AES256.obj ports.obj"/>
+    <OBJFILES value="TC66.obj TC66frm.obj Serial.obj sservice.obj strnum.obj StrUtils.obj 
+      sys_utils.obj TC66data.obj AES256.obj ports.obj"/>
     <RESFILES value="TC66.res"/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
@@ -53,7 +53,6 @@
       <FILE FILENAME="TC66.res" FORMNAME="" UNITNAME="TC66.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TC66.cpp" FORMNAME="" UNITNAME="TC66" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="TC66frm.cpp" FORMNAME="TC66F" UNITNAME="TC66frm" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="datastr.cpp" FORMNAME="" UNITNAME="datastr.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="Serial.cpp" FORMNAME="" UNITNAME="Serial.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="sservice.cpp" FORMNAME="" UNITNAME="sservice.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="strnum.cpp" FORMNAME="" UNITNAME="strnum.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>

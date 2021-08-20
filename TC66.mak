@@ -14,8 +14,8 @@ BCB = $(MAKEDIR)\..
 VERSION = BCB.06.00
 # ---------------------------------------------------------------------------
 PROJECT = TC66.exe
-OBJFILES = TC66.obj TC66frm.obj datastr.obj Serial.obj sservice.obj strnum.obj \
-    StrUtils.obj sys_utils.obj TC66data.obj AES256.obj ports.obj
+OBJFILES = TC66.obj TC66frm.obj Serial.obj sservice.obj strnum.obj StrUtils.obj \
+    sys_utils.obj TC66data.obj AES256.obj ports.obj
 RESFILES = TC66.res
 MAINSOURCE = TC66.cpp
 RESDEPEN = $(RESFILES) TC66frm.dfm
