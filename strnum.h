@@ -14,7 +14,6 @@ extern int dels(char *str, int p, int n);
 //insert char at the beginning of string
 extern int ins(char *str, char c);
 
-//----------------------------------
 //insert char at the position p of string
 extern int pins(char *str, char c, int p);
 
@@ -47,6 +46,9 @@ extern int itox(char *str, unsigned int u, int n);
 
 //floating point double to string
 extern int dtostr(char *str, double d, int decimals);
+
+//floating point double to string with or without lead zero
+extern int dtostrz(char *str, double d, int decimals, bool zero);
 
 //calculate round value
 extern double rnd(double d, int n);

@@ -53,6 +53,10 @@ __fastcall TTC66F::TTC66F(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TTC66F::FormCreate(TObject *Sender)
 {
+//  char str[128];
+
+//  dt2str(str,100.001, 0, 0);
+
   CBCom->Text = CBCom->Items->Strings[0];
   TIniFile *ini = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
   CBCom->Text = ini->ReadString("UART", "PORT", "COM1");
@@ -80,6 +84,9 @@ void __fastcall TTC66F::FormCreate(TObject *Sender)
   PControl->Color = clWhite;
   Color = clWhite;
   ind_rx->Visible = Blink;
+  Application->HintPause=500;
+  Application->HintShortPause=1500;
+
   //TC66F->PixelsPerInch = 96;
 }
 //---------------------------------------------------------------------------
@@ -805,7 +812,10 @@ void __fastcall TTC66F::Load_csv(AnsiString fName)
       {
        rec.dim[i] = 0;
        rec.dim[i] = strtod(pstr, &endptr);
-       if (endptr && ((endptr[0] == ls)||(endptr[0] == '\n'))) pstr = endptr+1;
+       if (endptr && ((endptr[0] == ls)||
+                      (endptr[0] == ',')||
+                      (endptr[0] == ';')||
+                      (endptr[0] == '\n'))) pstr = endptr+1;
       }
      TC66res.t = AppendTime+rec.t;
      Chart->Series[0]->AddXY(TC66res.t, rec.V);

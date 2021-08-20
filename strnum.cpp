@@ -210,6 +210,35 @@ int dtostr(char *str, double d, int decimals)
   return res+minus;
 }
 //----------------------------------
+//floating point double to string with or without lead zero
+int dtostrz(char *str, double d, int decimals, bool zero)
+{
+  int res = 0;
+  str[0] = '\0';
+  char minus = 0;
+  if (d < 0)
+   {
+    d = -d;
+    str += add(str, '-');
+    minus = 1;
+   }
+  int whole = (int)d;
+  double fract = rnd(d - whole, decimals);
+  if (zero||whole) res += itos(str, whole);
+  int wlen = res;
+  res+=add(str, '.');
+  while(decimals)
+   {
+    decimals--;
+    fract *= 10.0;
+    int n = (int)fract;
+    char c = '0'+n%10;
+    res+=add(str, c);
+   }
+  while((res>wlen)&&((str[res-1]=='0')||(str[res-1]=='.'))) str[--res] = '\0';
+  return res+minus;
+}
+//----------------------------------
 //return rounded value with n fract digits
 double rnd(double d, int n)
 {
@@ -242,6 +271,8 @@ double nrnd(double d, int n)
 }
 //---------------------------------------------------------------------------
 //time in seconds to date and time string
+typedef enum {centures, years, days, hours, minutes, seconds, times } ttimes;
+
 int t2str1(char *str, __int64 sec, int adj)
 {
  const unsigned __int64 dms[] =
@@ -251,11 +282,11 @@ int t2str1(char *str, __int64 sec, int adj)
    {":c ", ":y ", ":d ", ":h ", ":m ", ":s "};
  const char w[] =
    { 0,      3,     3,     2,     2,     2};
- unsigned int pt[6];
+ unsigned int pt[times];
  int i, j, k;
  char *pc = str;
 
- for(i = 0, j = -1, k = 0; i < 6; i++)
+ for(i = 0, j = -1, k = 0; i < times; i++)
   {
     pt[i] = (unsigned int)(sec / dms[i]);
     sec %= dms[i];
@@ -287,18 +318,18 @@ int t2str(char *str, __int64 sec, int adj, bool full)
    {":c ", ":y ", ":d ", ":h ", ":m ", ":s "};
  const char w[] =
    { 0,      3,     3,     2,     2,     2};
- unsigned int pt[6];
+ unsigned int pt[times];
  int i, j, k;
  char *pc = str;
 
- for(i = 0, j = -1, k = 0; i < 6; i++)
+ for(i = 0, j = -1, k = 0; i < times; i++)
   {
     pt[i] = (unsigned int)(sec / dms[i]);
     sec %= dms[i];
     if ((j == -1) && (pt[i] != 0)) j = i;
     if ((j != -1) && (pt[i] != 0)) k = i;
   }
- if (full) k = 5;
+ if (full) k = seconds;
  *str = '\0';
  if (j == -1) str += adds(str, "0:s");
  else
@@ -324,33 +355,32 @@ int dt2str(char *str, double dsec, int adj, bool full)
    {":c ", ":y ", ":d ", ":h ", ":m ", ":s "};
  const char w[] =
    { 0,      3,     3,     2,     2,     2};
- unsigned int pt[6];
+ unsigned int pt[times];
  int i, j, k;
  char *pc = str;
  int sec = (int)dsec;
- //int fract = (int)((dsec - sec)*1000.0);
  double fract = (dsec - sec);
 
- for(i = 0, j = -1, k = 0; i < 6; i++)
+ for(i = 0, j = -1, k = 0; i < times; i++)
   {
     pt[i] = (unsigned int)(sec / dms[i]);
     sec %= dms[i];
     if ((j == -1) && (pt[i] != 0)) j = i;
     if ((j != -1) && (pt[i] != 0)) k = i;
   }
- if (full) k = 5;
+ if (full) k = seconds;
  *str = '\0';
- if (j == -1) str += adds(str, "0:s");
+ if (j == -1)
+  {
+   if (fract) str += dtostrz(str, fract, 3, 1);
+   else str += adds(str, "0");
+   str += adds(str, ":s");
+  }
  else
  for(i = j; i <= k; i++)
   {
    str += itosa(str, pt[i], w[i]);
-   if (i==5)
-    {
-     char *p = str;
-     str += dtostr(str, fract, 3);
-     str -= dels(p, 0, 1);
-    }
+   if (i==seconds) str += dtostrz(str, fract, 3, 0);
    str += adds(str, fmt[i]);
   }
  int res = str-pc;

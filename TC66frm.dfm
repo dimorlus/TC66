@@ -59,11 +59,13 @@ object TC66F: TTC66F
     OnClickSeries = ChartClickSeries
     BottomAxis.Title.Caption = 'Time, s'
     LeftAxis.AxisValuesFormat = '#,##0.######'
+    LeftAxis.MinorTickCount = 5
     LeftAxis.StartPosition = 2
     LeftAxis.Title.Caption = 'Voltage, V'
     Legend.HorizMargin = 1
     Legend.ShadowSize = 1
     RightAxis.AxisValuesFormat = '#,##0.######'
+    RightAxis.MinorTickCount = 5
     RightAxis.StartPosition = 2
     RightAxis.Title.Caption = 'Current, A'
     View3D = False

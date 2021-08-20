@@ -12,12 +12,12 @@ File_9=SourceModule,'D:\Inst\Hardware\USB-C tester\PC\AES\aes.h',0,1,1,1,25,0,0
 
 [Modules]
 Module0=D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp
-Module1=D:\Inst\Hardware\USB-C tester\PC\Serial.cpp
-Module2=c:\program files (x86)\borland\cbuilder6\include\stdint.h
-Module3=c:\program files (x86)\borland\cbuilder6\include\vcl\dstring.h
-Module4=D:\Inst\Hardware\USB-C tester\PC\StrUtils.cpp
-Module5=D:\Inst\Hardware\USB-C tester\PC\TC66data.cpp
-Module6=D:\Inst\Hardware\USB-C tester\PC\strnum.cpp
+Module1=D:\Inst\Hardware\USB-C tester\PC\strnum.cpp
+Module2=D:\Inst\Hardware\USB-C tester\PC\Serial.cpp
+Module3=c:\program files (x86)\borland\cbuilder6\include\stdint.h
+Module4=c:\program files (x86)\borland\cbuilder6\include\vcl\dstring.h
+Module5=D:\Inst\Hardware\USB-C tester\PC\StrUtils.cpp
+Module6=D:\Inst\Hardware\USB-C tester\PC\TC66data.cpp
 Module7=D:\Inst\Hardware\USB-C tester\PC\AES256.cpp
 Module8=D:\Inst\Hardware\USB-C tester\PC\datastr.cpp
 Module9=D:\Inst\Hardware\USB-C tester\PC\TC66.bpr
@@ -27,6 +27,11 @@ EditWindowCount=1
 [D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp]
 ModuleType=SourceModule
 FormState=1
+FormOnTop=0
+
+[D:\Inst\Hardware\USB-C tester\PC\strnum.cpp]
+ModuleType=SourceModule
+FormState=0
 FormOnTop=0
 
 [D:\Inst\Hardware\USB-C tester\PC\Serial.cpp]
@@ -50,11 +55,6 @@ FormState=0
 FormOnTop=0
 
 [D:\Inst\Hardware\USB-C tester\PC\TC66data.cpp]
-ModuleType=SourceModule
-FormState=0
-FormOnTop=0
-
-[D:\Inst\Hardware\USB-C tester\PC\strnum.cpp]
 ModuleType=SourceModule
 FormState=0
 FormOnTop=0
@@ -111,13 +111,13 @@ LeftPanelData=000004000000000000000000000000000000000000000000000100000000000000
 RightPanelSize=0
 BottomPanelSize=0
 BottomPanelClients=MessageView@EditWindow0
-BottomPanelData=00000400010000000B0000004D65737361676556696577CC0500000000000002550000000000000001000000000000000000000000010000000011050000000000000100000000110500000000000001000000002005000000000000010000000020050000000000000100000000200500000000000001000000002005000000000000010000000020050000000000000100000000200500000000000001000000002005000000000000010000000020050000000000000100000000CC050000000000000100000000CC050000000000000100000000CC050000000000000100000000CC050000000000000100000000CC05000000000000FFFFFFFF
+BottomPanelData=00000400010000000B0000004D65737361676556696577CC0500000000000002550000000000000001000000000000000000000000010000000011050000000000000100000000110500000000000001000000002005000000000000010000000020050000000000000100000000200500000000000001000000002005000000000000010000000020050000000000000100000000200500000000000001000000002005000000000000010000000020050000000000000100000000CC050000000000000100000000CC050000000000000100000000CC050000000000000100000000CC050000000000000100000000CC050000000000000100000000CC050000000000000100000000CC0500000B0000004D65737361676556696577FFFFFFFF
 
 [View0]
 Module=D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp
-CursorX=1
-CursorY=378
-TopLine=359
+CursorX=33
+CursorY=88
+TopLine=1
 LeftCol=1
 
 [View1]
@@ -143,9 +143,9 @@ LeftCol=1
 
 [View4]
 Module=D:\Inst\Hardware\USB-C tester\PC\strnum.cpp
-CursorX=1
-CursorY=351
-TopLine=337
+CursorX=59
+CursorY=404
+TopLine=408
 LeftCol=1
 
 [View5]
@@ -316,7 +316,7 @@ LRDockWidth=190
 Dockable=1
 SplitPos=137
 ArrangeBy=Name
-SelectedItem=OnCreate
+SelectedItem=BottomAxis
 ExpandedItems=BottomAxis,BottomAxis.Ticks,Brush,Font,Font.Style,LeftAxis,RightAxis
 HiddenCategories=
 
