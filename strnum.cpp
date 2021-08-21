@@ -1,7 +1,5 @@
 //---------------------------------------------------------------------------
 #include <string.h>
-
-
 #pragma hdrstop
 
 #include "strnum.h"
@@ -234,59 +232,48 @@ double nrnd(double d, int n)
  else return dd;
 }
 //----------------------------------
-#define MAX_PRECISION	(10)
+
+//----------------------------------
 //floating point double to string with or without lead zero
-int dtostrz(char * str, double d, int precision, int zero)
+//negative decimals == automatic precision guess
+int dtostrz(char *str, double d, int decimals, int zero)
 {
- static const double rounders[MAX_PRECISION + 1] =
-  {
-   0.5,				// 0
-   0.05,			// 1
-   0.005,			// 2
-   0.0005,			// 3
-   0.00005,			// 4
-   0.000005,			// 5
-   0.0000005,			// 6
-   0.00000005,			// 7
-   0.000000005,		        // 8
-   0.0000000005,		// 9
-   0.00000000005		// 10
-  };
- char * ptr = str;
- char * p = ptr;
- char * p1;
+ char *ptr = str;
+ char *p = ptr;
+ char *p1;
  char c;
  long intPart;
 
- // check precision bounds
- if (precision > MAX_PRECISION) precision = MAX_PRECISION;
-
- // sign stuff
  if (d < 0)
   {
    d = -d;
    *ptr++ = '-';
   }
-
- if (precision < 0)  // negative precision == automatic precision guess
+ if (decimals > 10) decimals = 10;
+ else
+ if (decimals < 0)
   {
-   if (d < 1.0) precision = 6;
-   else if (d < 10.0) precision = 5;
-   else if (d < 100.0) precision = 4;
-   else if (d < 1000.0) precision = 3;
-   else if (d < 10000.0) precision = 2;
-   else if (d < 100000.0) precision = 1;
-   else precision = 0;
+   double r;
+   for(decimals = 6, r = 1.0; decimals; decimals--)
+    {
+     if (d < r) break;
+     r *= 10.0;
+    }
   }
+
  // round value according the precision
- if (precision) d += rounders[precision];
- // integer part...
+ if (decimals)
+  {
+   double r;
+   for(c = 0, r = 0.5; c < decimals; c++) r /=10.0;
+   d += r;
+  }
+
  intPart = d;
  d -= intPart;
  if (zero && !intPart) *ptr++ = '0';
  else
   {
-   // save start pointer
    p = ptr;
    // convert (reverse order)
    while (intPart)
@@ -308,12 +295,10 @@ int dtostrz(char * str, double d, int precision, int zero)
  }
  // decimal part
  int wlen = ptr-str;
- if (precision)
+ if (decimals)
   {
-   // place decimal point
    *ptr++ = '.';
-   // convert
-   while (precision--)
+   while (decimals--)
     {
      d *= 10.0;
      c = d;
@@ -322,10 +307,11 @@ int dtostrz(char * str, double d, int precision, int zero)
     }
   }
  // terminating zero
- *ptr = 0;
+ *ptr = '\0';
 
  int res = ptr-str;
- while((res>wlen)&&((str[res-1]=='0')||(str[res-1]=='.'))) str[--res] = '\0';
+ if (zero>=0)
+  while((res>wlen)&&((str[res-1]=='0')||(str[res-1]=='.'))) str[--res] = '\0';
  return res;
 }
 

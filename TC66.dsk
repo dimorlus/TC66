@@ -11,8 +11,8 @@ File_8=SourceModule,'D:\Inst\Hardware\USB-C tester\PC\AES1\bs.cpp',0,1,1,3,6,0,0
 File_9=SourceModule,'D:\Inst\Hardware\USB-C tester\PC\AES1\aes.cpp',0,1,28,14,47,0,0
 
 [Modules]
-Module0=D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp
-Module1=D:\Inst\Hardware\USB-C tester\PC\strnum.cpp
+Module0=D:\Inst\Hardware\USB-C tester\PC\strnum.cpp
+Module1=D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp
 Module2=D:\Inst\Hardware\USB-C tester\PC\Serial.cpp
 Module3=c:\program files (x86)\borland\cbuilder6\include\stdint.h
 Module4=c:\program files (x86)\borland\cbuilder6\include\vcl\dstring.h
@@ -22,14 +22,14 @@ Module7=D:\Inst\Hardware\USB-C tester\PC\AES256.cpp
 Count=8
 EditWindowCount=1
 
-[D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp]
-ModuleType=SourceModule
-FormState=1
-FormOnTop=0
-
 [D:\Inst\Hardware\USB-C tester\PC\strnum.cpp]
 ModuleType=SourceModule
 FormState=0
+FormOnTop=0
+
+[D:\Inst\Hardware\USB-C tester\PC\TC66frm.cpp]
+ModuleType=SourceModule
+FormState=1
 FormOnTop=0
 
 [D:\Inst\Hardware\USB-C tester\PC\Serial.cpp]
@@ -62,17 +62,17 @@ ModuleType=SourceModule
 FormState=0
 FormOnTop=0
 
-[D:\Inst\Hardware\USB-C tester\PC\TC66.bpr]
+[C:\Program Files (x86)\Borland\CBuilder6\Projects\ProjectGroup1.bpg]
 FormState=0
 FormOnTop=0
 
-[C:\Program Files (x86)\Borland\CBuilder6\Projects\ProjectGroup1.bpg]
+[D:\Inst\Hardware\USB-C tester\PC\TC66.bpr]
 FormState=0
 FormOnTop=0
 
 [EditWindow0]
 ViewCount=8
-CurrentView=0
+CurrentView=2
 View0=0
 View1=1
 View2=2
@@ -119,9 +119,9 @@ LeftCol=1
 
 [View2]
 Module=D:\Inst\Hardware\USB-C tester\PC\strnum.cpp
-CursorX=1
-CursorY=252
-TopLine=1
+CursorX=24
+CursorY=346
+TopLine=315
 LeftCol=1
 
 [View3]
