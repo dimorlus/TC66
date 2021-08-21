@@ -48,7 +48,7 @@ extern int itox(char *str, unsigned int u, int n);
 extern int dtostr(char *str, double d, int decimals);
 
 //floating point double to string with or without lead zero
-extern int dtostrz(char *str, double d, int decimals, bool zero);
+extern int dtostrz(char *str, double d, int decimals, int zero);
 
 //calculate round value
 extern double rnd(double d, int n);
@@ -68,6 +68,7 @@ extern int d2scistru(char *str, double d, const char* units);
 //floating point double to engineering string with prec significant digits
 extern int d2scistrup(char *str, double d, const char* units, int prec, int adj);
 
+//extern int ftoa1(char *buf, double f, int precision, int zero);
 
 //---------------------------------------------------------------------------
 #endif

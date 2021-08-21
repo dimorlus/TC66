@@ -181,49 +181,36 @@ int itox(char *str, unsigned int u, int n)
  return res;
 }
 //----------------------------------
-//floating point double to string
-int dtostr(char *str, double d, int decimals)
-{
-  return dtostrz(str, d, decimals, 1);
-}
-//----------------------------------
-//floating point double to string with or without lead zero
-int dtostrz(char *str, double d, int decimals, bool zero)
-{
-  int res = 0;
-  str[0] = '\0';
-  char minus = 0;
-  if (d < 0)
-   {
-    d = -d;
-    str += add(str, '-');
-    minus = 1;
-   }
-  int whole = (int)d;
-  double fract = rnd(d - whole, decimals);
-  if (zero||whole) res += itos(str, whole);
-  int wlen = res;
-  res+=add(str, '.');
-  while(decimals)
-   {
-    decimals--;
-    fract *= 10.0;
-    int n = (int)fract;
-    char c = '0'+n%10;
-    res+=add(str, c);
-   }
-  while((res>wlen)&&((str[res-1]=='0')||(str[res-1]=='.'))) str[--res] = '\0';
-  return res+minus;
-}
-//----------------------------------
 //return rounded value with n fract digits
-double rnd(double d, int n)
+
+/*
+double mround(double r)
 {
- double dd = (d<0)?-d:d;
+ return (r > 0.0) ? floor(r + 0.5) : ceil(r - 0.5);
+}
+
+double mrnd(double d, int n)
+{
  double Pow_10n = 1.0;
  while(n--) Pow_10n *= 10.0;
- if (d < 0) return -(int)(dd * Pow_10n + 0.5) / Pow_10n;
- else return (int)(dd * Pow_10n + 0.5) / Pow_10n;
+ return mround(d * Pow_10n) / Pow_10n;
+}
+
+int round(double x)
+{
+ double diff = +x - (int) +x;
+ if (x == 0) return 0;
+ if (x < 0) return (int) (diff >= 0.5) ? x + (1 - diff) : x + (-1 - diff);
+ else return (int) (diff >= 0.5) ? x + (1 - diff) : x - diff;
+}
+*/
+
+double rnd(double d, int n)
+{
+ double Pow_10n = 1.0;
+ while(n--) Pow_10n *= 10.0;
+ if (d < 0) return (int)(d * Pow_10n - 0.5) / Pow_10n;
+ else return (int)(d * Pow_10n + 0.5) / Pow_10n;
 }
 //----------------------------------
 //return rounded value with n significant digits
@@ -246,10 +233,112 @@ double nrnd(double d, int n)
  if (d < 0) return -dd;
  else return dd;
 }
-//---------------------------------------------------------------------------
+//----------------------------------
+#define MAX_PRECISION	(10)
+//floating point double to string with or without lead zero
+int dtostrz(char * str, double d, int precision, int zero)
+{
+ static const double rounders[MAX_PRECISION + 1] =
+  {
+   0.5,				// 0
+   0.05,			// 1
+   0.005,			// 2
+   0.0005,			// 3
+   0.00005,			// 4
+   0.000005,			// 5
+   0.0000005,			// 6
+   0.00000005,			// 7
+   0.000000005,		        // 8
+   0.0000000005,		// 9
+   0.00000000005		// 10
+  };
+ char * ptr = str;
+ char * p = ptr;
+ char * p1;
+ char c;
+ long intPart;
+
+ // check precision bounds
+ if (precision > MAX_PRECISION) precision = MAX_PRECISION;
+
+ // sign stuff
+ if (d < 0)
+  {
+   d = -d;
+   *ptr++ = '-';
+  }
+
+ if (precision < 0)  // negative precision == automatic precision guess
+  {
+   if (d < 1.0) precision = 6;
+   else if (d < 10.0) precision = 5;
+   else if (d < 100.0) precision = 4;
+   else if (d < 1000.0) precision = 3;
+   else if (d < 10000.0) precision = 2;
+   else if (d < 100000.0) precision = 1;
+   else precision = 0;
+  }
+ // round value according the precision
+ if (precision) d += rounders[precision];
+ // integer part...
+ intPart = d;
+ d -= intPart;
+ if (zero && !intPart) *ptr++ = '0';
+ else
+  {
+   // save start pointer
+   p = ptr;
+   // convert (reverse order)
+   while (intPart)
+    {
+     *p++ = '0' + intPart % 10;
+     intPart /= 10;
+    }
+   // save end pos
+   p1 = p;
+   // reverse result
+   while (p > ptr)
+    {
+     c = *--p;
+     *p = *ptr;
+     *ptr++ = c;
+    }
+   // restore end pos
+   ptr = p1;
+ }
+ // decimal part
+ int wlen = ptr-str;
+ if (precision)
+  {
+   // place decimal point
+   *ptr++ = '.';
+   // convert
+   while (precision--)
+    {
+     d *= 10.0;
+     c = d;
+     *ptr++ = '0' + c;
+     d -= c;
+    }
+  }
+ // terminating zero
+ *ptr = 0;
+
+ int res = ptr-str;
+ while((res>wlen)&&((str[res-1]=='0')||(str[res-1]=='.'))) str[--res] = '\0';
+ return res;
+}
+
+//----------------------------------
+//floating point double to string
+int dtostr(char *str, double d, int decimals)
+{
+  return dtostrz(str, d, decimals, 1);
+}
+//----------------------------------
 //time in seconds to date and time string
 typedef enum {centures, years, days, hours, minutes, seconds, times } ttimes;
-//---------------------------------------------------------------------------
+//----------------------------------
 //time in seconds to date and time string
 int t2str(char *str, __int64 sec, int adj, bool full)
 {
@@ -286,7 +375,7 @@ int t2str(char *str, __int64 sec, int adj, bool full)
  if (adj < 0) while (res < -adj) res += add(str, ' ');
  return res;
 }
-//---------------------------------------------------------------------------
+//----------------------------------
 //time in seconds to date and time string
 int dt2str(char *str, double dsec, int adj, bool full)
 {
@@ -331,7 +420,7 @@ int dt2str(char *str, double dsec, int adj, bool full)
  if (adj < 0) while (res < -adj) res += add(str, ' ');
  return res;
 }
-//---------------------------------------------------------------------------
+//----------------------------------
 //floating point double to engineering string with prec significant digits
 int d2scistrup(char *str, double d, const char* units, int prec, int adj)
 {
@@ -373,11 +462,11 @@ int d2scistrup(char *str, double d, const char* units, int prec, int adj)
  if (adj < 0) while (res < -adj) res += add(str, ' ');
  return res;
 }
-//---------------------------------------------------------------------------
+//----------------------------------
 //floating point double to engineering string
 int d2scistru(char *str, double d, const char* units)
 {
  return d2scistrup(str, d, units, 4, 0);
 }
-//---------------------------------------------------------------------------
+//----------------------------------
 
