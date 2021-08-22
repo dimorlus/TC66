@@ -844,22 +844,28 @@ void __fastcall TTC66F::Save_csv(AnsiString fName)
    int CountV = Chart->Series[0]->Count();
    int CountI = Chart->Series[1]->Count();
    int Count = (CountV < CountI)?CountV:CountI;
+   int X1 = Chart->ChartRect.Left;
+   int X2 = Chart->ChartRect.Right;
    for(int ValueIndex=0; ValueIndex<Count; ValueIndex++)
     {
-     double t = Chart->Series[0]->XValue[ValueIndex];
-     double V = Chart->Series[0]->YValue[ValueIndex];
-     double I = Chart->Series[1]->YValue[ValueIndex];
-     fprintf(File, "%0.2f%c%2.5f%c%1.6f\n", t, ls, V, ls, I);
-     n++;
-     if (n%1000==0)
+     int x = Chart->Series[0]->CalcXPosValue(Chart->Series[0]->XValue[ValueIndex]);
+     if ((x >= X1) && (x <= X2))
       {
-       lprintf(MTest->Lines,"Save %d lines\n", n);
-       Application->ProcessMessages();
-       if (AbortFlag)
+       double t = Chart->Series[0]->XValue[ValueIndex];
+       double V = Chart->Series[0]->YValue[ValueIndex];
+       double I = Chart->Series[1]->YValue[ValueIndex];
+       fprintf(File, "%0.2f%c%2.5f%c%1.6f\n", t, ls, V, ls, I);
+       n++;
+       if (n%1000==0)
         {
-         lprintf(MTest->Lines,"Abort saving\n", n);
-         AbortFlag = false;
-         break;
+         lprintf(MTest->Lines,"Save %d lines\n", n);
+         Application->ProcessMessages();
+         if (AbortFlag)
+          {
+           lprintf(MTest->Lines,"Abort saving\n", n);
+           AbortFlag = false;
+           break;
+          }
         }
       }
     }
