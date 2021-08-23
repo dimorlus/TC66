@@ -126,6 +126,9 @@ private:	// User declarations
 
         double kCurr;
         double kVolt;
+        double Imin;
+        double Timin;
+        double Timeout;
         char ls;
         TTC66res TC66res;
         TTC66localCounter TC66localCounter;

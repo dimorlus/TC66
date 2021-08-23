@@ -68,6 +68,8 @@ void __fastcall TTC66F::FormCreate(TObject *Sender)
   LastName = ini->ReadString("FILES", "LASTNAME", "");
   kCurr = ini->ReadFloat("TC66", "KCURR", 1.0);
   kVolt = ini->ReadFloat("TC66", "KVOLT", 1.0);
+  Imin = ini->ReadFloat("RECORD", "IMIN", 0.0);
+  Timin = ini->ReadFloat("RECORD", "TIMIN", 60.0);
   Blink = ini->ReadBool("INTERFACE", "BLINK", 1);
   Memo = ini->ReadBool("INTERFACE", "MEMO", 1);
   delete ini;
@@ -343,10 +345,17 @@ void __fastcall TTC66F::TimerHandle(void)
         TC66res.Wh0 = kVolt*kCurr*TC66Data.mWh0/1000.0;
         TC66res.Ah1 = kCurr*TC66Data.mAh1/1000.0;
         TC66res.Wh1 = kVolt*kCurr*TC66Data.mWh1/1000.0;
-        double dt = (currms-lastms)/1000.0;
-        TC66res.t += dt;
-        lastms = currms;
         TC66res.Tc = TC66Data.Tmp*(TC66Data.Tsign?-1.0:1.0);
+
+        double dt = (currms-lastms)/1000.0;
+        lastms = currms;
+
+        if (TC66res.I < Imin) Timeout += dt;
+        else Timeout = 0;
+
+        TC66localCounter.W = TC66res.V*TC66res.I;
+        TC66localCounter.As += TC66res.I*dt;
+        TC66localCounter.Ws += TC66localCounter.W*dt;
 
         STVoltage->Caption = ad2scistrup(TC66res.V, "V", 4, 0);
         STCurrent->Caption = ad2scistrup(TC66res.I, "A", 4, 0);
@@ -357,19 +366,20 @@ void __fastcall TTC66F::TimerHandle(void)
         STAh1->Caption = ad2scistrup(TC66res.Ah1, "Ah1", 4, 0);
         STWh1->Caption = ad2scistrup(TC66res.Wh1, "Wh1", 4, 0);
         STTmp->Caption = ad2scistrup(TC66res.Tc, "°C", 3, 0);
-
-        TC66localCounter.W = TC66res.V*TC66res.I;
-        TC66localCounter.As += TC66res.I*dt;
-        TC66localCounter.Ws += TC66localCounter.W*dt;
-
         STLocalPower->Caption = ad2scistrup(TC66localCounter.W, "W", 3, 0);
         STLocalAh->Caption = ad2scistrup(TC66localCounter.As/3600, "Ah", 3, 0);
         STLocalWh->Caption = ad2scistrup(TC66localCounter.Ws/3600, "Wh", 3, 0);
 
+        if (Timeout < Timin)
+         {
+          TC66res.t += dt;
+          Chart->Series[0]->AddXY(TC66res.t, TC66res.V);
+          Chart->Series[1]->AddXY(TC66res.t, TC66res.I);
+         }
         Log(&TC66res);
-        Chart->Series[0]->AddXY(TC66res.t, TC66res.V);
-        Chart->Series[1]->AddXY(TC66res.t, TC66res.I);
+
         BStart->Enabled = true;
+
         int ms2 = GetTickCount();
         if ((ms2-ms1) > 990)
          {
@@ -380,6 +390,7 @@ void __fastcall TTC66F::TimerHandle(void)
          }
         if (Blink) ind_rx->Brush->Color = clBlack;
        }
+
     }
   }
 }
